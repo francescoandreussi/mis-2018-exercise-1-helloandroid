@@ -31,27 +31,22 @@ public class Fetch extends AsyncTask<URL,Void,String>{
 
     @Override
     protected String doInBackground(URL...urls) {
-        String id = "";
+        String id;
         try{
             HttpURLConnection httpURLConnection = (HttpURLConnection) urls[0].openConnection();
-            String contentType = httpURLConnection.getContentType();
-            if (contentType.equals("text/html")){
-                id = urls[0].toString();
-            } else {
-                try {
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    String line = "";
-                    while (line != null) {
-                        line = bufferedReader.readLine();
-                        data = data + line;
-                    }
-                    id = "Not renderable";
-                } catch (UnknownServiceException e) {
-                    id = "Unknown service";
-                } finally {
-                    httpURLConnection.disconnect();
+            try {
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String line = "";
+                while (line != null) {
+                    line = bufferedReader.readLine();
+                    data = data + line;
                 }
+                id = "Not renderable";
+            } catch (UnknownServiceException e) {
+                id = "Unknown service";
+            } finally {
+                httpURLConnection.disconnect();
             }
         } catch (MalformedURLException e) {
             id = "Incorrect URL";
@@ -108,12 +103,8 @@ public class Fetch extends AsyncTask<URL,Void,String>{
                 toast7.setGravity(Gravity.CENTER, 0, 0);
                 toast7.show();
                 break;
-            case "Not renderable":
-                MainActivity.webViewresult.loadData(this.data, null, null);//otherwise this.data, "text/plain", null
-                break;
             default:
-                MainActivity.webViewresult.loadUrl(id);
-                //MainActivity.result.setText(Html.fromHtml(this.data));
+                MainActivity.result.setText(Html.fromHtml(this.data));
         }
     }
 }

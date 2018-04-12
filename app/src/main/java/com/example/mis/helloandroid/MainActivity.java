@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     String data;
     public static TextView result;
-    public static WebView webViewresult;
+    public static WebView webViewResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,28 +42,24 @@ public class MainActivity extends AppCompatActivity {
         editText=(EditText)findViewById(R.id.ask);
         button=(Button) findViewById(R.id.button);
         result =(TextView) findViewById(R.id.result);
-        webViewresult =(WebView) findViewById(R.id.webViewResult);
-        webViewresult.setWebViewClient(new WebViewClient());
-        webViewresult.getSettings().setJavaScriptEnabled(true);
+        webViewResult =(WebView) findViewById(R.id.webViewResult);
+        webViewResult.setWebViewClient(new WebViewClient());
+        webViewResult.getSettings().setJavaScriptEnabled(true);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     String txtUrl = editText.getText().toString();
-                    webViewresult.loadUrl(txtUrl);
                     URL url = new URL(txtUrl);
                     Fetch process = new Fetch(getApplicationContext());
+                    webViewResult.loadUrl(txtUrl);
                     process.execute(url);
                 } catch (MalformedURLException e) {
-                    Toast toast = Toast.makeText(MainActivity.this, "Invalid URL", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(MainActivity.this, "The URL is invalid", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0 ,0);
                     toast.show();
                 }
-
-                /*Toast toast = Toast.makeText(MainActivity.this, "hey there", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0 ,0);
-                toast.show();*/
             }
         });
     }

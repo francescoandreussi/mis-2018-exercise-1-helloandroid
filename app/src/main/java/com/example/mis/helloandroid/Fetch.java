@@ -26,7 +26,7 @@ public class Fetch extends AsyncTask<URL,Void,String>{
     private String data;
     private Context myContext;
 
-    //
+    // constructor
     public Fetch(Context context){
         myContext = context;
     }
